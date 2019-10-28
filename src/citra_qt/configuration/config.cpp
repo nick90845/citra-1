@@ -178,6 +178,8 @@ void Config::ReadValues() {
     Settings::values.screen_refresh_rate = ReadSetting("screen_refresh_rate", 60).toInt();
     Settings::values.enable_cache_clear = ReadSetting("enable_cache_clear", false).toBool();
     Settings::values.clear_cache_secs = qt_config->value("clear_cache_secs", 60).toInt();
+    Settings::values.sharper_distant_objects =
+        ReadSetting("sharper_distant_objects", false).toBool();
 
     Settings::values.bg_red = ReadSetting("bg_red", 0.0).toFloat();
     Settings::values.bg_green = ReadSetting("bg_green", 0.0).toFloat();
@@ -502,6 +504,7 @@ void Config::SaveValues() {
     WriteSetting("screen_refresh_rate", Settings::values.screen_refresh_rate);
     WriteSetting("enable_cache_clear", Settings::values.enable_cache_clear, false);
     WriteSetting("clear_cache_secs", Settings::values.clear_cache_secs, 60);
+    WriteSetting("sharper_distant_objects", Settings::values.sharper_distant_objects, false);
 
     // Cast to double because Qt's written float values are not human-readable
     WriteSetting("bg_red", (double)Settings::values.bg_red, 0.0);

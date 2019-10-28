@@ -135,6 +135,10 @@ frame_limit =
 # 0: Off, 1: On (default)
 use_format_reinterpret_hack =
 
+# Enable the cache clear feature
+enable_cache_clear =
+clear_cache_secs =
+
 # The clear color for the renderer. What shows up on the sides of the bottom screen.
 # Must be in range of 0.0-1.0. Defaults to 0.0 for all.
 bg_red =

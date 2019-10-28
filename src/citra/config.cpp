@@ -127,6 +127,10 @@ void Config::ReadValues() {
         sdl2_config->GetBoolean("Renderer", "use_disk_shader_cache", true);
     Settings::values.use_format_reinterpret_hack =
         static_cast<u16>(sdl2_config->GetBoolean("Renderer", "use_format_reinterpret_hack", true));
+    Settings::values.enable_cache_clear =
+        sdl2_config->GetBoolean("Renderer", "enable_cache_clear", false);
+    Settings::values.clear_cache_secs =
+        static_cast<u16>(sdl2_config->GetInteger("Renderer", "clear_cache_secs", 30));
 
     Settings::values.render_3d = static_cast<Settings::StereoRenderOption>(
         sdl2_config->GetInteger("Renderer", "render_3d", 0));

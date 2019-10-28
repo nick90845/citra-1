@@ -40,6 +40,8 @@ ConfigureGraphics::ConfigureGraphics(QWidget* parent)
 
     ui->AddTicks->setEnabled(Settings::values.FMV_hack);
     connect(ui->FMV_hack, &QCheckBox::toggled, ui->AddTicks, &QSpinBox::setEnabled);
+    ui->clear_cache_secs->setEnabled(Settings::values.enable_cache_clear);
+    connect(ui->enable_cache_clear, &QCheckBox::toggled, ui->clear_cache_secs, &QSpinBox::setEnabled);
 }
 
 ConfigureGraphics::~ConfigureGraphics() = default;
@@ -51,6 +53,8 @@ void ConfigureGraphics::SetConfiguration() {
     ui->toggle_format_reinterpret_hack->setChecked(Settings::values.use_format_reinterpret_hack);
     ui->FMV_hack->setChecked(Settings::values.FMV_hack);
     ui->AddTicks->setValue(Settings::values.AddTicks);
+    ui->enable_cache_clear->setChecked(Settings::values.enable_cache_clear);
+    ui->clear_cache_secs->setValue(Settings::values.clear_cache_secs);
     ui->toggle_shader_jit->setChecked(Settings::values.use_shader_jit);
 }
 
@@ -61,6 +65,8 @@ void ConfigureGraphics::ApplyConfiguration() {
     Settings::values.use_format_reinterpret_hack = ui->toggle_format_reinterpret_hack->isChecked();
     Settings::values.FMV_hack = ui->FMV_hack->isChecked();
     Settings::values.AddTicks = ui->AddTicks->value();
+    Settings::values.enable_cache_clear = ui->enable_cache_clear->isChecked();
+    Settings::values.clear_cache_secs = ui->clear_cache_secs->value();
     Settings::values.use_shader_jit = ui->toggle_shader_jit->isChecked();
 }
 

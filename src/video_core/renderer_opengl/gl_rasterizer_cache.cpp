@@ -1875,9 +1875,15 @@ void RasterizerCacheOpenGL::ValidateSurface(const Surface& surface, PAddr addr, 
         return;
     }
 
+    auto validate_regions = surface->invalid_regions & validate_interval;
+    auto notify_validated = [&](SurfaceInterval interval) {
+        surface->invalid_regions.erase(interval);
+        validate_regions.erase(interval);
+    };
+
     while (true) {
-        const auto it = surface->invalid_regions.find(validate_interval);
-        if (it == surface->invalid_regions.end())
+        const auto it = validate_regions.begin();
+        if (it == validate_regions.end())
             break;
 
         const auto interval = *it & validate_interval;
@@ -1889,7 +1895,7 @@ void RasterizerCacheOpenGL::ValidateSurface(const Surface& surface, PAddr addr, 
         if (copy_surface != nullptr) {
             SurfaceInterval copy_interval = params.GetCopyableInterval(copy_surface);
             CopySurface(copy_surface, surface, copy_interval);
-            surface->invalid_regions.erase(copy_interval);
+            notify_validated(copy_interval);
             continue;
         }
 
@@ -1909,9 +1915,28 @@ void RasterizerCacheOpenGL::ValidateSurface(const Surface& surface, PAddr addr, 
                 ConvertD24S8toABGR(reinterpret_surface->texture.handle, src_rect,
                                    surface->texture.handle, dest_rect);
 
-                surface->invalid_regions.erase(convert_interval);
+                notify_validated(convert_interval);
                 continue;
             }
+        }
+
+        // By this point, we've checked to see if there was a valid surface that we could have
+        // copied from, so now we want to check if the surface was created on the gpu only. If it
+        // was, and since we already checked if there was a matching surface with the same format,
+        // this means its requesting a different texture format and we will skip it. If any part
+        // that we will validate is from the CPU, then we flush it all.
+
+        // As this is a HACK, remove this when we get proper hw texture en/decoding support
+        if (VideoCore::g_use_format_reinterpret_hack) {
+            bool retry{};
+
+            for (const auto& pair : RangeFromInterval(dirty_regions, interval)) {
+                validate_regions.erase(pair.first & interval);
+                retry = true;
+            }
+
+            if (retry)
+                continue;
         }
 
         // Load data from 3DS memory
@@ -1919,7 +1944,7 @@ void RasterizerCacheOpenGL::ValidateSurface(const Surface& surface, PAddr addr, 
         surface->LoadGLBuffer(params.addr, params.end);
         surface->UploadGLTexture(surface->GetSubRect(params), read_framebuffer.handle,
                                  draw_framebuffer.handle);
-        surface->invalid_regions.erase(params.GetInterval());
+        notify_validated(params.GetInterval());
     }
 }
 

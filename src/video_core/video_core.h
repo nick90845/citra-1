@@ -32,6 +32,7 @@ extern std::atomic<bool> g_hw_renderer_enabled;
 extern std::atomic<bool> g_shader_jit_enabled;
 extern std::atomic<bool> g_hw_shader_enabled;
 extern std::atomic<bool> g_hw_shader_accurate_mul;
+extern std::atomic<bool> g_use_format_reinterpret_hack;
 extern std::atomic<bool> g_renderer_bg_color_update_requested;
 extern std::atomic<bool> g_renderer_sampler_update_requested;
 extern std::atomic<bool> g_renderer_shader_update_requested;

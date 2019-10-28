@@ -149,6 +149,7 @@ struct Values {
     u16 resolution_factor;
     bool use_frame_limit;
     u16 frame_limit;
+    bool use_format_reinterpret_hack;
 
     LayoutOption layout_option;
     bool swap_screen;

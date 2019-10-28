@@ -45,6 +45,7 @@ void ConfigureGraphics::SetConfiguration() {
     ui->toggle_hw_renderer->setChecked(Settings::values.use_hw_renderer);
     ui->toggle_hw_shader->setChecked(Settings::values.use_hw_shader);
     ui->toggle_accurate_mul->setChecked(Settings::values.shaders_accurate_mul);
+    ui->toggle_format_reinterpret_hack->setChecked(Settings::values.use_format_reinterpret_hack);
     ui->toggle_shader_jit->setChecked(Settings::values.use_shader_jit);
 }
 
@@ -52,6 +53,7 @@ void ConfigureGraphics::ApplyConfiguration() {
     Settings::values.use_hw_renderer = ui->toggle_hw_renderer->isChecked();
     Settings::values.use_hw_shader = ui->toggle_hw_shader->isChecked();
     Settings::values.shaders_accurate_mul = ui->toggle_accurate_mul->isChecked();
+    Settings::values.use_format_reinterpret_hack = ui->toggle_format_reinterpret_hack->isChecked();
     Settings::values.use_shader_jit = ui->toggle_shader_jit->isChecked();
 }
 

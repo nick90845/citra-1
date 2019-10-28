@@ -19,6 +19,10 @@ ConfigureEnhancements::ConfigureEnhancements(QWidget* parent)
     connect(ui->custom_refresh_rate, &QCheckBox::toggled, ui->screen_refresh_rate, &QSpinBox::setEnabled);
 
     ui->layoutBox->setEnabled(!Settings::values.custom_layout);
+    connect(ui->custom_layout, &QCheckBox::toggled, ui->custom_layout_group,
+            &QWidget::setVisible);
+    connect(ui->custom_layout, &QCheckBox::toggled, ui->layout_combobox,
+            &QWidget::setDisabled);
 
     ui->resolution_factor_combobox->setEnabled(Settings::values.use_hw_renderer);
 
@@ -52,6 +56,17 @@ void ConfigureEnhancements::SetConfiguration() {
     updateShaders(Settings::values.render_3d == Settings::StereoRenderOption::Anaglyph);
     ui->toggle_linear_filter->setChecked(Settings::values.filter_mode);
     ui->layout_combobox->setCurrentIndex(static_cast<int>(Settings::values.layout_option));
+    ui->custom_layout->setChecked(Settings::values.custom_layout);
+    ui->layout_combobox->setEnabled(!Settings::values.custom_layout);
+    ui->custom_layout_group->setVisible(Settings::values.custom_layout);
+    ui->custom_top_left->setValue(Settings::values.custom_top_left);
+    ui->custom_top_top->setValue(Settings::values.custom_top_top);
+    ui->custom_top_right->setValue(Settings::values.custom_top_right);
+    ui->custom_top_bottom->setValue(Settings::values.custom_top_bottom);
+    ui->custom_bottom_left->setValue(Settings::values.custom_bottom_left);
+    ui->custom_bottom_top->setValue(Settings::values.custom_bottom_top);
+    ui->custom_bottom_right->setValue(Settings::values.custom_bottom_right);
+    ui->custom_bottom_bottom->setValue(Settings::values.custom_bottom_bottom);
     ui->swap_screen->setChecked(Settings::values.swap_screen);
     ui->toggle_disk_cache->setChecked(Settings::values.use_disk_shader_cache);
     ui->custom_refresh_rate->setChecked(Settings::values.custom_refresh_rate);
@@ -105,6 +120,15 @@ void ConfigureEnhancements::ApplyConfiguration() {
     Settings::values.filter_mode = ui->toggle_linear_filter->isChecked();
     Settings::values.layout_option =
         static_cast<Settings::LayoutOption>(ui->layout_combobox->currentIndex());
+    Settings::values.custom_layout = ui->custom_layout->isChecked();
+    Settings::values.custom_top_left = ui->custom_top_left->value();
+    Settings::values.custom_top_top = ui->custom_top_top->value();
+    Settings::values.custom_top_right = ui->custom_top_right->value();
+    Settings::values.custom_top_bottom = ui->custom_top_bottom->value();
+    Settings::values.custom_bottom_left = ui->custom_bottom_left->value();
+    Settings::values.custom_bottom_top = ui->custom_bottom_top->value();
+    Settings::values.custom_bottom_right = ui->custom_bottom_right->value();
+    Settings::values.custom_bottom_bottom = ui->custom_bottom_bottom->value();
     Settings::values.swap_screen = ui->swap_screen->isChecked();
     Settings::values.use_disk_shader_cache = ui->toggle_disk_cache->isChecked();
     Settings::values.custom_refresh_rate = ui->custom_refresh_rate->isChecked();

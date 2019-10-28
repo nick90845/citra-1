@@ -160,6 +160,7 @@ public:
 
     void AddTicks(std::uint64_t ticks) override {
         timing.AddTicks(Settings::values.FMV_hack ? Settings::values.AddTicks : ticks);
+    }
 
     std::uint64_t GetTicksRemaining() override {
         s64 ticks = timing.GetDowncount();

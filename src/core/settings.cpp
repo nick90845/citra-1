@@ -28,6 +28,7 @@ void Apply() {
     VideoCore::g_shader_jit_enabled = values.use_shader_jit;
     VideoCore::g_hw_shader_enabled = values.use_hw_shader;
     VideoCore::g_hw_shader_accurate_mul = values.shaders_accurate_mul;
+    VideoCore::g_use_disk_shader_cache = values.use_disk_shader_cache;
     VideoCore::g_use_format_reinterpret_hack = values.use_format_reinterpret_hack;
 
     if (VideoCore::g_renderer) {

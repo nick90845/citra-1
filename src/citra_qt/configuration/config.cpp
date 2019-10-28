@@ -180,6 +180,7 @@ void Config::ReadValues() {
     Settings::values.clear_cache_secs = qt_config->value("clear_cache_secs", 60).toInt();
     Settings::values.sharper_distant_objects =
         ReadSetting("sharper_distant_objects", false).toBool();
+    Settings::values.min_vertices_per_thread = ReadSetting("min_vertices_per_thread", 10).toInt();
 
     Settings::values.bg_red = ReadSetting("bg_red", 0.0).toFloat();
     Settings::values.bg_green = ReadSetting("bg_green", 0.0).toFloat();
@@ -505,6 +506,7 @@ void Config::SaveValues() {
     WriteSetting("enable_cache_clear", Settings::values.enable_cache_clear, false);
     WriteSetting("clear_cache_secs", Settings::values.clear_cache_secs, 60);
     WriteSetting("sharper_distant_objects", Settings::values.sharper_distant_objects, false);
+    WriteSetting("min_vertices_per_thread", Settings::values.min_vertices_per_thread);
 
     // Cast to double because Qt's written float values are not human-readable
     WriteSetting("bg_red", (double)Settings::values.bg_red, 0.0);

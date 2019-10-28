@@ -186,6 +186,9 @@ signals:
     /// Emitted when the window is closed
     void Closed();
 
+    /// Useful if you don't use a keyboard
+    void MiddleClick();
+
 private:
     std::pair<u32, u32> ScaleTouch(QPointF pos) const;
     void TouchBeginEvent(const QTouchEvent* event);

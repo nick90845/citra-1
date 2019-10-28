@@ -955,6 +955,7 @@ void GMainWindow::BootGame(const QString& filename) {
     emu_thread->start();
 
     connect(render_window, &GRenderWindow::Closed, this, &GMainWindow::OnStopGame);
+    connect(render_window, &GRenderWindow::MiddleClick, ui.action_Fullscreen, &QAction::trigger);
     // BlockingQueuedConnection is important here, it makes sure we've finished refreshing our views
     // before the CPU continues
     connect(emu_thread.get(), &EmuThread::DebugModeEntered, registersWidget,
@@ -1037,6 +1038,7 @@ void GMainWindow::ShutdownGame() {
 
     // The emulation is stopped, so closing the window or not does not matter anymore
     disconnect(render_window, &GRenderWindow::Closed, this, &GMainWindow::OnStopGame);
+    disconnect(render_window, &GRenderWindow::MiddleClick, ui.action_Fullscreen, &QAction::trigger);
 
     // Update the GUI
     ui.action_Toolbar_Start_Pause->setEnabled(false);

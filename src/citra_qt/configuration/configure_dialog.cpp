@@ -66,6 +66,7 @@ void ConfigureDialog::ApplyConfiguration() {
     ui->debugTab->ApplyConfiguration();
     ui->webTab->ApplyConfiguration();
     ui->uiTab->ApplyConfiguration();
+    sdmc_dir_changed = ui->generalTab->sdmc_dir_changed;
     Settings::Apply();
     Settings::LogSettings();
 }

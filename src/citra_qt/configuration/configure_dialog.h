@@ -35,6 +35,8 @@ private:
     void UpdateVisibleTabs();
     void PopulateSelectionList();
 
+    bool sdmc_dir_changed;
+
     std::unique_ptr<Ui::ConfigureDialog> ui;
     HotkeyRegistry& registry;
 };

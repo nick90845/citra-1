@@ -18,6 +18,7 @@
 #include "core/hle/service/am/am.h"
 #include "core/hle/service/fs/archive.h"
 #include "core/loader/loader.h"
+#include "core/settings.h"
 
 namespace {
 bool HasSupportedFileExtension(const std::string& file_name) {
@@ -123,15 +124,19 @@ void GameListWorker::run() {
     for (UISettings::GameDir& game_dir : game_dirs) {
         if (game_dir.path == "INSTALLED") {
             QString games_path =
-                QString::fromStdString(FileUtil::GetUserPath(FileUtil::UserPath::SDMCDir)) +
+                QString::fromStdString(
+                (Settings::values.sdmc_dir.empty() ? FileUtil::GetUserPath(FileUtil::UserPath::SDMCDir)
+                : std::string(Settings::values.sdmc_dir + "/")) +
                 "Nintendo "
                 "3DS/00000000000000000000000000000000/"
-                "00000000000000000000000000000000/title/00040000";
+                "00000000000000000000000000000000/title/00040000");
             QString demos_path =
-                QString::fromStdString(FileUtil::GetUserPath(FileUtil::UserPath::SDMCDir)) +
+                QString::fromStdString(
+                (Settings::values.sdmc_dir.empty() ? FileUtil::GetUserPath(FileUtil::UserPath::SDMCDir)
+                : std::string(Settings::values.sdmc_dir + "/")) +
                 "Nintendo "
                 "3DS/00000000000000000000000000000000/00000000000000000000000000000000/title/"
-                "00040002";
+                "00040002");
             watch_list.append(games_path);
             watch_list.append(demos_path);
             auto* const game_list_dir = new GameListDir(game_dir, GameListItemType::InstalledDir);

@@ -106,6 +106,13 @@
         <item>
          <layout class="QVBoxLayout" name="verticalLayout_5">
           <item>
+           <widget class="QCheckBox" name="toggle_is_new_3ds">
+            <property name="text">
+             <string>New 3DS Mode</string>
+            </property>
+           </widget>
+          </item>
+          <item>
            <widget class="QCheckBox" name="toggle_use_priority_boost">
             <property name="text">
              <string>Boost proirity on starved threads</string>

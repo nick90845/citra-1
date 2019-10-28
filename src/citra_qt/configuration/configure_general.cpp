@@ -29,6 +29,7 @@ ConfigureGeneral::ConfigureGeneral(QWidget* parent)
     SetConfiguration();
 
     connect(ui->toggle_frame_limit, &QCheckBox::toggled, ui->frame_limit, &QSpinBox::setEnabled);
+    ui->toggle_is_new_3ds->setEnabled(!Core::System::GetInstance().IsPoweredOn());
     ui->toggle_use_priority_boost->setEnabled(!Core::System::GetInstance().IsPoweredOn());
     ui->button_sdmc_dir->setEnabled(!Core::System::GetInstance().IsPoweredOn());
     ui->button_sdmc_dir_empty->setEnabled(!Core::System::GetInstance().IsPoweredOn());
@@ -48,6 +49,7 @@ void ConfigureGeneral::SetConfiguration() {
     ui->toggle_check_exit->setChecked(UISettings::values.confirm_before_closing);
     ui->toggle_use_priority_boost->setChecked(Settings::values.use_priority_boost);
     ui->toggle_use_force_indexed->setChecked(Settings::values.use_force_indexed);
+    ui->toggle_is_new_3ds->setChecked(Settings::values.is_new_3ds);
     ui->sdmc_dir->setText(QString::fromStdString(Settings::values.sdmc_dir));
     ui->toggle_background_pause->setChecked(UISettings::values.pause_when_in_background);
 
@@ -92,6 +94,7 @@ void ConfigureGeneral::ApplyConfiguration() {
 
     Settings::values.use_priority_boost = ui->toggle_use_priority_boost->isChecked();
     Settings::values.use_force_indexed = ui->toggle_use_force_indexed->isChecked();
+    Settings::values.is_new_3ds = ui->toggle_is_new_3ds->isChecked();
     sdmc_dir_changed = Settings::values.sdmc_dir != ui->sdmc_dir->text().toStdString();
     Settings::values.sdmc_dir = ui->sdmc_dir->text().toStdString();
 }

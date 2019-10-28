@@ -13,6 +13,7 @@
 #include "core/hle/kernel/shared_page.h"
 #include "core/hle/kernel/thread.h"
 #include "core/hle/kernel/timer.h"
+#include "core/settings.h"
 
 namespace Kernel {
 
@@ -21,7 +22,11 @@ KernelSystem::KernelSystem(Memory::MemorySystem& memory, Core::Timing& timing,
                            std::function<void()> prepare_reschedule_callback, u32 system_mode)
     : memory(memory), timing(timing),
       prepare_reschedule_callback(std::move(prepare_reschedule_callback)) {
-    MemoryInit(system_mode);
+   if (Settings::values.is_new_3ds) {
+        MemoryInit(6); // Allocates 124MB to the application(n3ds)
+    }else{
+        MemoryInit(system_mode); // Allocates 96MB to the application(o3ds)
+    }
 
     resource_limits = std::make_unique<ResourceLimitList>(*this);
     thread_manager = std::make_unique<ThreadManager>(*this);
